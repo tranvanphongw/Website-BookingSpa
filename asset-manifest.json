@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/Website-BookingSpa/static/css/main.5480b1eb.css",
+    "main.js": "/Website-BookingSpa/static/js/main.8b679c8a.js",
+    "static/js/453.419a5d54.chunk.js": "/Website-BookingSpa/static/js/453.419a5d54.chunk.js",
+    "static/media/slick.svg": "/Website-BookingSpa/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/Website-BookingSpa/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/Website-BookingSpa/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/Website-BookingSpa/static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "/Website-BookingSpa/index.html",
+    "main.5480b1eb.css.map": "/Website-BookingSpa/static/css/main.5480b1eb.css.map",
+    "main.8b679c8a.js.map": "/Website-BookingSpa/static/js/main.8b679c8a.js.map",
+    "453.419a5d54.chunk.js.map": "/Website-BookingSpa/static/js/453.419a5d54.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5480b1eb.css",
+    "static/js/main.8b679c8a.js"
+  ]
+}
