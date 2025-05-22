@@ -1,0 +1,177 @@
+/* Container for the rating form */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Styling for the form header */
+  h1 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Styling for each input group */
+  .formGroup {
+    margin-bottom: 15px;
+  }
+  
+  /* Styling for input fields and text area */
+  .inputField, .textArea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  
+  .textArea {
+    height: 100px;
+  }
+  
+  /* Styling for the submit button */
+  .button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Styling for the message (success or error) */
+  .message {
+    text-align: center;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    color: #2c3e50;
+  }
+  
+  .message.success {
+    color: #4CAF50;  /* Green color for success messages */
+  }
+
+.employeeList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.employeeCard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  width: 220px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+.employeeCard:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+.avatar {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 60px;
+  margin-bottom: 1rem;
+  border: 3px solid #4CAF50;
+}
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modalBox {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 350px;
+  box-shadow: 0 2px 16px #aaa;
+}
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+}
+.ratingForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.ratingField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.ratingField label {
+  font-weight: bold;
+  color: #2c3e50;
+}
+.ratingField select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+.ratingField textarea {
+  min-height: 100px;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  resize: vertical;
+}
+.modalButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.modalButtons button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+.modalButtons button:first-child {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+}
+.modalButtons button:last-child {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+}
+.modalButtons button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}

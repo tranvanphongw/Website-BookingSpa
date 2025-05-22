@@ -1,0 +1,453 @@
+.homeContainer {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #e0f7fa 0%, #fce4ec 100%);
+  min-height: 100vh;
+  color: #333;
+  padding: 0;
+  margin: 0;
+}
+
+/* Carousel */
+.carousel {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: linear-gradient(90deg, #fceabb 0%, #f8b500 100%);
+  border-radius: 0 0 32px 32px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+.carouselImage {
+  width: 100%;
+  height: 70vh;
+  object-fit: cover;
+  border-radius: 0 0 32px 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  transition: transform 0.4s;
+}
+.carouselImage:hover {
+  transform: scale(1.03);
+}
+
+/* Intro */
+.intro {
+  padding: 60px 8vw;
+  background: linear-gradient(120deg, #f8fafc 60%, #e0f7fa 100%);
+  text-align: center;
+  border-radius: 32px;
+  margin-top: -40px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.introContent h2 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #159895;
+  margin-bottom: 18px;
+  letter-spacing: 1px;
+}
+
+.introContent p {
+  font-size: 1.25rem;
+  color: #555;
+  max-width: 800px;
+  margin: 0 auto 36px;
+}
+
+.features {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.featureItem {
+  background: linear-gradient(90deg, #e0c3fc 0%, #8ec5fc 100%);
+  padding: 18px 28px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #22594e;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 12px rgba(21,152,149,0.08);
+  transition: background 0.3s, transform 0.2s;
+}
+.featureItem:hover {
+  background: linear-gradient(90deg, #fbc2eb 0%, #a6c1ee 100%);
+  transform: translateY(-2px) scale(1.04);
+}
+.featureItem i {
+  font-size: 2.2rem;
+  color: #ff5c8d;
+}
+
+.featureItem span {
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .intro {
+    padding: 40px 10vw;
+  }
+
+  .introContent h2 {
+    font-size: 2rem;
+  }
+
+  .introContent p {
+    font-size: 1rem;
+  }
+}
+
+
+/* Services */
+.services {
+  padding: 70px 8vw 60px 8vw;
+  text-align: center;
+  background: linear-gradient(120deg, #fceabb 0%, #ebcb73 100%);
+  border-radius: 32px;
+  margin: 40px 0;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.services h2 {
+  font-size: 2.3rem;
+  color: #22594e;
+  font-weight: 800;
+  margin-bottom: 36px;
+  letter-spacing: 1px;
+}
+
+.serviceList {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.serviceItem {
+  background: linear-gradient(135deg, #fff 60%, #e0f7fa 100%);
+  border-radius: 24px;
+  box-shadow: 0 6px 24px rgba(21,152,149,0.10);
+  transition: transform 0.3s, box-shadow 0.3s;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border: 1.5px solid #e0f7fa;
+}
+.serviceItem:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 12px 32px rgba(21,152,149,0.18);
+}
+
+.serviceImage {
+  width: 100%;
+  height: 210px;
+  border-radius: 24px 24px 0 0;
+  overflow: hidden;
+}
+.serviceImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+.serviceItem:hover .serviceImage img {
+  transform: scale(1.06);
+}
+
+.serviceInfo {
+  padding: 24px 20px 20px 20px;
+}
+
+.serviceTitle {
+  font-size: 1.35rem;
+  font-weight: bold;
+  color: #159895;
+  margin-bottom: 12px;
+}
+
+.serviceDescription {
+  font-size: 1.05rem;
+  color: #555;
+  margin-bottom: 18px;
+}
+
+.servicePrice {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  font-size: 1.25rem;
+  color: #ff5c8d;
+  font-weight: bold;
+}
+
+.viewDetailLink {
+  text-decoration: none;
+  color: #ff5c8d;
+  font-weight: 600;
+  transition: color 0.3s, text-shadow 0.3s;
+  font-size: 1.05rem;
+}
+.viewDetailLink:hover {
+  color: #f59e1b;
+  text-shadow: 0 2px 8px #fbc2eb44;
+}
+
+.viewAll {
+  margin-top: 32px;
+}
+
+.viewAllButton {
+  background: linear-gradient(90deg, #ff5c8d 0%, #fbbf24 100%);
+  color: white;
+  padding: 16px 44px;
+  font-size: 1.25rem;
+  font-weight: bold;
+  border-radius: 32px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  box-shadow: 0 4px 16px rgba(255, 92, 141, 0.13);
+  border: none;
+}
+.viewAllButton:hover {
+  background: linear-gradient(90deg, #fbbf24 0%, #ff5c8d 100%);
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 8px 24px rgba(255, 92, 141, 0.18);
+}
+
+.viewAllButton i {
+  margin-left: 8px;
+}
+
+/* Team */
+.teamSection {
+  padding: 70px 8vw 60px 8vw;
+  background: linear-gradient(120deg, #e0f7fa 0%, #f8fafc 100%);
+  text-align: center;
+  border-radius: 32px;
+  margin: 40px 0;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.teamIntro h2 {
+  font-size: 2.2rem;
+  margin-bottom: 14px;
+  color: #159895;
+  font-weight: 800;
+}
+
+.teamIntro p {
+  font-size: 1.15rem;
+  color: #555;
+  max-width: 800px;
+  margin: 0 auto 30px;
+}
+
+.teamList {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.teamMember {
+  background: linear-gradient(135deg, #fff 60%, #e0f7fa 100%);
+  border-radius: 24px;
+  padding: 28px 18px 22px 18px;
+  box-shadow: 0 6px 24px rgba(21,152,149,0.10);
+  transition: transform 0.3s, box-shadow 0.3s;
+  width: 240px;
+  text-align: center;
+  border: 1.5px solid #e0f7fa;
+}
+.teamMember:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 12px 32px rgba(21,152,149,0.18);
+}
+
+.teamImage {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(21,152,149,0.10);
+  border: 3px solid #fbbf24;
+  transition: border 0.3s;
+}
+.teamMember:hover .teamImage {
+  border: 3px solid #ff5c8d;
+}
+
+.teamImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.teamMember h3 {
+  font-size: 1.15rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.specialty {
+  color: #ff5c8d;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.experience {
+  font-size: 0.98rem;
+  color: #777;
+  max-width: 220px;
+  margin: 0 auto;
+}
+
+/* Testimonials */
+.testimonials {
+  padding: 70px 8vw 60px 8vw;
+  background: linear-gradient(120deg, #f8fafc 60%, #e0f7fa 100%);
+  text-align: center;
+  border-radius: 32px;
+  margin: 40px 0;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.testimonials h2 {
+  font-size: 2rem;
+  margin-bottom: 36px;
+  color: #159895;
+  font-weight: 800;
+}
+
+.testimonialList {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+.testimonial {
+  background: linear-gradient(135deg, #fff 60%, #e0f7fa 100%);
+  padding: 28px 18px 22px 18px;
+  border-radius: 24px;
+  width: 300px;
+  box-shadow: 0 6px 24px rgba(21,152,149,0.10);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1.5px solid #e0f7fa;
+}
+.testimonial:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 12px 32px rgba(21,152,149,0.18);
+}
+
+.testimonialImage {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(21,152,149,0.10);
+  border: 3px solid #fbbf24;
+  transition: border 0.3s;
+}
+.testimonial:hover .testimonialImage {
+  border: 3px solid #ff5c8d;
+}
+
+.testimonialImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.testimonialContent h3 {
+  font-weight: bold;
+  font-size: 1.15rem;
+  color: #333;
+}
+
+.testimonialStars i {
+  color: #ffcc00;
+}
+
+.testimonial p {
+  font-style: italic;
+  color: #555;
+  font-size: 1.02rem;
+}
+
+/* CTA cuối */
+.bookNow {
+  text-align: center;
+  padding: 70px 10vw 70px 10vw;
+  background: linear-gradient(90deg, #f7a8d6 0%, #9d5bdb 100%);
+  color: white;
+  margin-top: 60px;
+  border-radius: 40px;
+  box-shadow: 0 8px 32px rgba(157,91,219,0.13);
+}
+
+.bookNow h2 {
+  font-size: 2.2rem;
+  margin-bottom: 28px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.bookNowButton {
+  background: linear-gradient(90deg, #ff5c8d 0%, #fbbf24 100%);
+  color: white;
+  padding: 18px 48px;
+  border-radius: 32px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0 4px 16px rgba(255, 92, 141, 0.13);
+  border: none;
+}
+.bookNowButton:hover {
+  background: linear-gradient(90deg, #fbbf24 0%, #ff5c8d 100%);
+  transform: scale(1.06);
+  box-shadow: 0 8px 24px rgba(255, 92, 141, 0.18);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .carouselImage {
+    height: 40vh;
+  }
+
+  .serviceList,
+  .teamList,
+  .testimonialList {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .intro h1 {
+    font-size: 2rem;
+  }
+
+  .bookNow h2 {
+    font-size: 1.6rem;
+  }
+  .intro, .services, .teamSection, .testimonials, .bookNow {
+    padding: 32px 4vw;
+    border-radius: 18px;
+  }
+}

@@ -1,0 +1,44 @@
+.profileContainer {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profileContainer h2 {
+  margin-bottom: 20px;
+  color: #e91e63;
+  text-align: center;
+}
+
+.profileContainer label {
+  display: block;
+  margin-top: 12px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.profileContainer input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.profileContainer button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #e91e63;
+  border: none;
+  color: white;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.profileContainer button:hover {
+  background-color: #c2185b;
+}

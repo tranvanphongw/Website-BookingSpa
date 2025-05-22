@@ -1,0 +1,278 @@
+/* ServiceForm.module.css */
+
+/* Container của form thêm/sửa dịch vụ */
+.form-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header của form */
+.form-container h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Nhóm các trường input */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Thiết kế trường input và textarea */
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #f7f7f7;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
+/* Cải tiến cho các input kiểu number */
+.form-group input[type="number"] {
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Thiết kế riêng cho textarea */
+.form-group textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+/* Thông báo lỗi hoặc thành công */
+.message {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 1rem;
+  color: #e74c3c;
+}
+
+.message.success {
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+/* Nút thêm hoặc sửa dịch vụ */
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+button:active {
+  background-color: #1e7e34;
+  transform: translateY(1px);
+}
+
+/* Nút "Xóa" và "Sửa" */
+button.delete {
+  background-color: #e74c3c;
+}
+
+button.delete:hover {
+  background-color: #c0392b;
+}
+
+button.edit {
+  background-color: #3498db;
+}
+
+button.edit:hover {
+  background-color: #2980b9;
+}
+
+/* Nút "Thêm Dịch Vụ" */
+.add-service-button {
+  width: auto; /* Đảm bảo nút không chiếm hết chiều rộng */
+  padding: 8px 20px; /* Thêm padding để nút vừa phải hơn */
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  display: inline-block; /* Đảm bảo nó sẽ hiển thị inline với các phần tử khác */
+  text-align: center;
+  margin-right: auto; /* Đưa nút về bên trái */
+  margin-left: 0; /* Đảm bảo nút không có margin trái để không có khoảng cách */
+}
+
+/* Các hiệu ứng hover và active */
+.add-service-button:hover {
+  background-color: #0056b3;
+}
+
+.add-service-button:active {
+  background-color: #003366;
+}
+
+
+.addService {
+  width: 100%;
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.addService h1 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #e91e63; /* Màu hồng */
+  margin-bottom: 30px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-top: 8px;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-color: #e91e63; /* Màu sắc border khi focus */
+  outline: none;
+  box-shadow: 0 0 5px rgba(233, 30, 99, 0.3);
+}
+
+textarea.input {
+  height: 150px;
+  resize: vertical;
+}
+
+select.input {
+  cursor: pointer;
+}
+
+button {
+  padding: 12px 20px;
+  background-color: #e91e63;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+button:disabled {
+  background-color: #f3f4f6;
+  cursor: not-allowed;
+}
+
+button:hover {
+  background-color: #c2185b; /* Màu hồng đậm khi hover */
+}
+
+button:active {
+  background-color: #9c1a4b; /* Màu hồng khi click */
+}
+
+input[type="file"] {
+  padding: 10px 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-top: 8px;
+}
+
+input[type="file"]:focus {
+  border-color: #e91e63;
+}
+
+label {
+  font-weight: 500;
+  color: #555;
+}
+
+select.input {
+  cursor: pointer;
+}
+
+/* Khi form đang load */
+input:disabled,
+select:disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}
+
+/* Tạo khoảng cách đẹp cho các phần tử trong form */
+.formGroup:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .addService {
+    padding: 15px;
+    margin: 20px;
+  }
+
+  .input,
+  textarea.input,
+  select.input {
+    font-size: 0.9rem;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 10px 15px;
+  }
+
+  .add-service-button {
+    width: 100%; /* Đảm bảo nút chiếm hết chiều rộng trên màn hình nhỏ */
+    font-size: 0.95rem;
+  }
+}

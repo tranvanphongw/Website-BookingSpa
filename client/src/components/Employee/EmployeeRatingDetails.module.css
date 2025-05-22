@@ -1,0 +1,115 @@
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.backButton {
+  padding: 0.5rem 1rem;
+  margin-bottom: 2rem;
+  border: none;
+  background: #2b9e42; /* Changed to Bootstrap blue */
+  color: white;      /* Added white text */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.backButton:hover {
+  background: #c0c2bd; /* Darker blue on hover */
+}
+
+.employeeInfo {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.ratingsContainer {
+  max-width: 600px; /* Make container narrower */
+  margin: 0 auto; /* Center the container */
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.ratingCard {
+  padding: 1rem; /* Reduced padding */
+  border-radius: 6px; /* Smaller radius */
+  background: #f8f9fa;
+  margin-bottom: 0.8rem; /* Reduced margin */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid #eee;
+}
+
+.stars {
+  color: #ffd700;
+  font-size: 1rem; /* Smaller stars */
+  margin-bottom: 0.5rem; /* Less space */
+  display: flex;
+  align-items: center;
+}
+
+.comment {
+  color: #333;
+  margin: 0.5rem 0; /* Less margin */
+  line-height: 1.4;
+  font-size: 0.95rem; /* Slightly smaller text */
+}
+
+.date {
+  color: #666;
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+.reviewer {
+  color: #666;
+  font-size: 0.85rem; /* Smaller text */
+  font-style: italic;
+  text-align: right;
+  margin-top: 0.3rem; /* Less space */
+  border-top: 1px solid #eee;
+  padding-top: 0.3rem;
+}
+
+.averageRating {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.starRating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.ratingNumber {
+  color: #666;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
+
+.totalRatings {
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.ratingHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}

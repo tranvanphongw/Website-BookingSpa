@@ -1,0 +1,219 @@
+.container {
+  font-family: 'Segoe UI', sans-serif;
+  color: #3b2f2f;
+  background-color: #fdfaf5;
+}
+
+.section {
+  padding: 60px 20px;
+  background-color: #f9f5ee;
+  text-align: center;
+}
+
+.textBlock {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.imageText {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #dbb770;
+  padding: 60px 20px;
+  gap: 40px;
+}
+
+.imageLeft img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+}
+
+.textRight {
+  flex: 1;
+  min-width: 280px;
+}
+
+.bannerSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #dbb770;
+  padding: 60px 40px;
+  flex-wrap: wrap;
+}
+
+.bannerText {
+  flex: 1;
+  min-width: 300px;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.bannerImage img {
+  max-width: 600px;
+  border-radius: 12px;
+}
+
+/* Nút ĐẶT NGAY (dùng với <Link>) */
+.bookingButton {
+  display: inline-block;
+  background-color: #c9a55d;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.bookingButton:hover {
+  background-color: #b8954f;
+}
+
+/* Vùng testimonials (cảm nhận khách hàng) */
+.testimonials {
+  background-color: #f9fafb; /* tương đương bg-gray-50 */
+  padding: 4rem 1.5rem;       /* tương đương py-16 px-6 */
+}
+
+.testimonialsContainer {
+  max-width: 80rem;           /* tương đương max-w-5xl */
+  margin: 0 auto;
+}
+
+.testimonialsTitle {
+  font-size: 1.5rem;          /* tương đương text-2xl */
+  font-family: serif;         /* tương đương font-serif */
+  text-align: center;
+  color: #065f46;             /* tương đương text-emerald-800 */
+  margin-bottom: 3rem;
+}
+
+.testimonialsGrid {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .testimonialsGrid {
+    grid-template-columns: repeat(2, 1fr); /* md:grid-cols-2 */
+  }
+}
+
+.testimonialCard {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.75rem;     /* rounded-xl */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* shadow-sm */
+}
+
+.testimonialStars {
+  color: #f59e0b;             /* text-amber-400 */
+  margin-right: 0.75rem;
+}
+
+.testimonialText {
+  color: #4b5563;             /* text-gray-600 */
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.testimonialAuthor {
+  display: flex;
+  align-items: center;
+}
+
+.testimonialAuthor img {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  margin-right: 1rem;
+}
+
+.testimonialName {
+  font-weight: 500;
+  color: #1f2937;             /* text-gray-800 */
+}
+
+.testimonialRole {
+  font-size: 0.875rem;
+  color: #6b7280;             /* text-gray-500 */
+}
+
+.techTeamSection {
+  padding: 3rem 1.5rem;
+}
+
+.techTeamContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .techTeamContainer {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.techImageBox {
+  flex: 1;
+  overflow: hidden;
+  border-radius: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+}
+
+.techImage {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+.techContent {
+  flex: 1;
+}
+
+.techTitle {
+  font-size: 1.75rem;
+  font-family: serif;
+  color: #065f46;
+  margin-bottom: 1.5rem;
+}
+
+.techText {
+  color: #4b5563;
+  line-height: 1.75;
+  margin-bottom: 1.5rem;
+}
+
+.techAvatarsRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatarGroup {
+  display: flex;
+  margin-right: 1rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  border: 2px solid #fff;
+  margin-left: -8px;
+  box-shadow: 0 0 0 1px #e5e7eb;
+}
+
+.moreExperts {
+  font-size: 0.875rem;
+  color: #6b7280;
+}

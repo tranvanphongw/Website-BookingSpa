@@ -1,0 +1,487 @@
+/* Employee Scheduling Module Styles */
+
+/* Main container */
+.form-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 25px;
+  font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+.form-container h1 {
+  color: #1e3a8a;
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #3b82f6;
+  font-weight: 600;
+  font-size: 28px;
+}
+
+/* Filter section */
+.filter-section {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #3b82f6;
+}
+
+.filter-section h3 {
+  margin-top: 0;
+  color: #1e3a8a;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.filter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+}
+
+.filter-controls div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-controls label {
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.filter-controls input[type="date"] {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-family: inherit;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s;
+}
+
+.filter-controls input[type="date"]:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.filter-controls button {
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  color: #4b5563;
+}
+
+.filter-controls button:hover {
+  background-color: #e5e7eb;
+}
+
+.filter-controls button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Form styling */
+.schedule-form {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  border-top: 4px solid #10b981;
+}
+
+.schedule-form h3 {
+  margin-top: 0;
+  color: #064e3b;
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.form-group select,
+.form-group input[type="date"],
+.form-group input[type="time"],
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 15px;
+  transition: all 0.2s;
+  background-color: #f9fafb;
+}
+
+.form-group select:focus,
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #10b981;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+  background-color: #fff;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+  justify-content: flex-start;
+}
+
+.form-actions button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+.form-actions button[type="submit"] {
+  background-color: #10b981;
+  color: white;
+  flex: 1;
+  max-width: 200px;
+}
+
+.form-actions button[type="submit"]:hover {
+  background-color: #059669;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-actions button[type="button"] {
+  background-color: #ef4444;
+  color: white;
+}
+
+.form-actions button[type="button"]:hover {
+  background-color: #dc2626;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Messages */
+.message {
+  padding: 15px 20px;
+  border-radius: 6px;
+  margin: 15px 0;
+  background-color: #d1fae5;
+  color: #064e3b;
+  border-left: 4px solid #10b981;
+  animation: fadeIn 0.5s;
+  font-weight: 500;
+}
+
+.message.error {
+  background-color: #fee2e2;
+  color: #7f1d1d;
+  border-left: 4px solid #ef4444;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Schedule table */
+.schedule-table-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.schedule-table-container h3 {
+  margin-top: 0;
+  color: #1e3a8a;
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.schedule-table th, 
+.schedule-table td {
+  text-align: left;
+  padding: 14px 15px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.schedule-table th {
+  background-color: #f3f4f6;
+  font-weight: 600;
+  color: #1f2937;
+  white-space: nowrap;
+}
+
+.schedule-table tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.schedule-table tr:hover {
+  background-color: #f3f4f6;
+}
+
+.schedule-table tr:last-child td {
+  border-bottom: none;
+}
+
+.no-data {
+  text-align: center;
+  padding: 40px;
+  color: #6b7280;
+  font-style: italic;
+  background-color: #f9fafb;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #6b7280;
+  font-weight: 500;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* Action buttons in table */
+.edit-btn, 
+.delete-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s;
+  margin-right: 8px;
+  display: inline-block;
+}
+
+.edit-btn {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.delete-btn {
+  background-color: #ef4444;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #dc2626;
+  transform: translateY(-1px);
+}
+
+.edit-btn:active,
+.delete-btn:active {
+  transform: translateY(1px);
+}
+
+.edit-btn:disabled,
+.delete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .form-container {
+    padding: 20px 15px;
+  }
+  
+  .schedule-table th,
+  .schedule-table td {
+    padding: 12px 10px;
+    font-size: 14px;
+  }
+  
+  .form-actions button {
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-row .form-group {
+    margin-bottom: 0;
+  }
+  
+  .schedule-table {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  .filter-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .filter-controls div {
+    width: 100%;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .form-actions button {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+/* Date and time inputs styling fix for Firefox */
+input[type="date"],
+input[type="time"] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%236B7280' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+
+/* Custom styling for select dropdown */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%236B7280' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+
+/* Status indicator styling */
+td:nth-child(6) {
+  font-weight: 500;
+}
+
+td:nth-child(6):contains("Hoạt động") {
+  color: #059669;
+}
+
+td:nth-child(6):contains("Không hoạt động") {
+  color: #dc2626;
+}
+
+/* Add subtle transitions for better UX */
+button,
+input,
+select,
+textarea {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Better focus states for accessibility */
+*:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Clean table column widths */
+.schedule-table th:nth-child(1), 
+.schedule-table td:nth-child(1) {
+  width: 5%;
+}
+
+.schedule-table th:nth-child(2), 
+.schedule-table td:nth-child(2) {
+  width: 15%;
+}
+
+.schedule-table th:nth-child(3), 
+.schedule-table td:nth-child(3) {
+  width: 12%;
+}
+
+.schedule-table th:nth-child(4), 
+.schedule-table td:nth-child(4),
+.schedule-table th:nth-child(5), 
+.schedule-table td:nth-child(5) {
+  width: 10%;
+}
+
+.schedule-table th:nth-child(6), 
+.schedule-table td:nth-child(6) {
+  width: 10%;
+}
+
+.schedule-table th:nth-child(7), 
+.schedule-table td:nth-child(7) {
+  width: 20%;
+}
+
+.schedule-table th:nth-child(8), 
+.schedule-table td:nth-child(8) {
+  width: 18%;
+  text-align: center;
+}
