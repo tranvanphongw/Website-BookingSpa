@@ -28,4 +28,6 @@ const poolPromise = new sql.ConnectionPool(config)
     throw err; // Ném lỗi nếu kết nối thất bại
   });
 
+  
+
 module.exports = { sql, poolPromise };

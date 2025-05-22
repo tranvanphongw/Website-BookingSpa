@@ -8,12 +8,18 @@ const bookingRoutes = require('./routes/booking.routes');
 const ratingRoutes = require('./routes/rating.routes');
 const paymentRoutes = require('./routes/payment.routes');
 const employeeRoutes = require('./routes/employee.routes');
+const khachhangRoutes = require('./routes/khachhang.routes');
+const scheduleRoutes = require('./routes/schedule.routes');
+const path = require('path');
 
 const app = express();
 dotenv.config();
 
 app.use(cors());
 app.use(express.json());
+
+
+app.use('/images', express.static('public/images'));
 
 // Kiểm tra kết nối cơ sở dữ liệu trước khi khởi động server
 poolPromise
@@ -28,6 +34,8 @@ poolPromise
     app.use('/api/ratings', ratingRoutes);
     app.use('/api/payments', paymentRoutes);
     app.use('/api/employees', employeeRoutes);
+    app.use('/api/khachhang', khachhangRoutes);
+    app.use('/api/schedules', scheduleRoutes);
 
     app.get('/', (req, res) => {
       res.send('Spa Booking API is running...');

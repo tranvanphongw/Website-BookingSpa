@@ -76,7 +76,7 @@ router.post('/login', async (req, res) => {
     }
 
     // Tạo token và gửi về cho client
-    const token = jwt.sign({ MAKH: user.MAKH, role: user.ROLE }, process.env.SECRET_KEY, { expiresIn: '1h' });
+    const token = jwt.sign({ MAKH: user.MAKH, TEN: user.TEN, role: user.ROLE }, process.env.SECRET_KEY, { expiresIn: '1h' });
     res.json({ token });
   } catch (err) {
     res.status(500).json({ error: err.message });
