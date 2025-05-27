@@ -119,7 +119,7 @@ const Layout = ({ children }) => {
             <h3>Spa Booking</h3>
             <p>Địa chỉ: Số 1, Đường ABC, TP.HCM</p>
             <p>Điện thoại: 0123456789</p>
-            <p>Email: info@spaleenhat.com</p>
+            <p>Email: info@spabooking.com</p>
           </div>
 
           <div>

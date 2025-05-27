@@ -21,6 +21,7 @@ const EmployeeScheduling = () => {
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
   const [filterDate, setFilterDate] = useState(format(new Date(), 'yyyy-MM-dd'));
+  // eslint-disable-next-line no-unused-vars
   const [filterEmployee, setFilterEmployee] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 

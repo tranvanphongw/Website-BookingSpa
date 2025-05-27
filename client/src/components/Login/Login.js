@@ -23,20 +23,19 @@ const Login = () => {
         MATKHAU: password,
       });
 
-    const decoded = jwtDecode(response.data.token);
-    console.log('✅ Token Decoded:', decoded); 
-    const userRole = decoded.role;
-    const MAKH = decoded.MAKH;         // ✅ ĐÃ SỬA ở đây
-    const username = decoded.TEN;
+      const decoded = jwtDecode(response.data.token);
+      console.log('✅ Token Decoded:', decoded); 
+      const userRole = decoded.role;
+      const MAKH = decoded.MAKH;
+      const username = decoded.TEN;
 
-    localStorage.setItem('token', response.data.token);
-    localStorage.setItem('MAKH', MAKH);         // ✅ Bây giờ sẽ có giá trị đúng
-    localStorage.setItem('username', username);
-
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('MAKH', MAKH);
+      localStorage.setItem('username', username);
 
       setMessage("Đăng nhập thành công!");
 
-      // ✅ Điều hướng theo vai trò
+      // Điều hướng theo vai trò
       if (userRole === 'admin') {
         navigate('/admin');
       } else {
@@ -73,13 +72,30 @@ const Login = () => {
       <button onClick={handleLogin} className={styles.button}>Đăng nhập</button>
       {message && <div className={styles.message}>{message}</div>}
 
-      <div className={styles.registerPrompt} style={{ marginTop: '1rem', textAlign: 'center' }}>
-        Chưa có tài khoản?{' '}
+      <div
+        style={{
+          marginTop: '1rem',
+          textAlign: 'center',
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '1.5rem',
+          fontSize: '0.9rem'
+        }}
+      >
+        <span>
+          Chưa có tài khoản?{' '}
+          <span
+            style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}
+            onClick={() => navigate('/register')}
+          >
+            Đăng ký ngay
+          </span>
+        </span>
         <span
           style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}
-          onClick={() => navigate('/register')}
+          onClick={() => navigate('/forgot-password')}
         >
-          Đăng ký ngay
+          Quên mật khẩu?
         </span>
       </div>
     </div>

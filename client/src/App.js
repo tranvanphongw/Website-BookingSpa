@@ -26,6 +26,9 @@ import FaqSection from './components/Faq/FaqSection';
 import ServiceDetail from './components/ServiceDetail/ServiceDetail'; 
 import EmployeeRatingDetails from './components/Employee/EmployeeRatingDetails';
 
+import ForgotPassword from './components/Login/ForgotPassword';
+import ResetPassword from './components/Login/ResetPassword';
+
 import Profile from './components/Profile/Profile';
 function App() {
   const token = localStorage.getItem('token');
@@ -58,6 +61,10 @@ function App() {
           <Route path="/service-detail/:id" element={<ServiceDetail />} />
           <Route path="/employee-ratings/:empId" element={<EmployeeRatingDetails />} /> 
           <Route path="/profile" element={<Profile />} />
+
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+
           {/* --- Dành riêng cho Admin --- */}
           {isAdmin ? (
             <>

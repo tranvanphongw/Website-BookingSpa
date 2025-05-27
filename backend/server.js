@@ -10,6 +10,9 @@ const paymentRoutes = require('./routes/payment.routes');
 const employeeRoutes = require('./routes/employee.routes');
 const khachhangRoutes = require('./routes/khachhang.routes');
 const scheduleRoutes = require('./routes/schedule.routes');
+
+const forgotRoutes = require('./routes/forgot.routes');
+
 const path = require('path');
 
 const app = express();
@@ -36,6 +39,8 @@ poolPromise
     app.use('/api/employees', employeeRoutes);
     app.use('/api/khachhang', khachhangRoutes);
     app.use('/api/schedules', scheduleRoutes);
+
+    app.use('/api/auth', forgotRoutes);
 
     app.get('/', (req, res) => {
       res.send('Spa Booking API is running...');
