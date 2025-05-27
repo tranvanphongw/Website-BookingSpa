@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
 import { jwtDecode } from 'jwt-decode';
+import { UserContext } from '../contexts/UserContext';
 import styles from './Login.module.css'; 
 
 const Login = () => {
@@ -9,6 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
+  const { login } = useContext(UserContext);
   const navigate = useNavigate(); 
 
   const handleLogin = async () => {
@@ -29,11 +31,15 @@ const Login = () => {
       const MAKH = decoded.MAKH;
       const username = decoded.TEN;
 
+      // Lưu token và thông tin vào localStorage như trước
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('MAKH', MAKH);
       localStorage.setItem('username', username);
 
       setMessage("Đăng nhập thành công!");
+
+      // Gọi login của context để cập nhật user toàn cục
+      login(response.data.token);
 
       // Điều hướng theo vai trò
       if (userRole === 'admin') {

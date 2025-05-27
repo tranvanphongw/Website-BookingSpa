@@ -1,24 +1,18 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { poolPromise, sql } = require('../config/db');
 const nodemailer = require('nodemailer');
+const { findUserByEmail, updateUserPassword } = require('../models/user.model');
 require('dotenv').config();
 
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
   try {
-    const pool = await poolPromise;
-    const result = await pool.request()
-      .input('EMAIL', sql.VarChar, email)
-      .query('SELECT * FROM KHACHHANG WHERE EMAIL = @EMAIL');
+    const user = await findUserByEmail(email);
 
-    if (result.recordset.length === 0) {
-      // Không nên trả trực tiếp email không tồn tại để tránh lộ thông tin
+    if (!user) {
       return res.json({ message: 'Nếu email tồn tại, chúng tôi đã gửi mail đặt lại mật khẩu!' });
     }
-
-    const user = result.recordset[0];
 
     const token = jwt.sign(
       { MAKH: user.MAKH },
@@ -57,11 +51,7 @@ const resetPassword = async (req, res) => {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
     const hashed = await bcrypt.hash(newPassword, 10);
 
-    const pool = await poolPromise;
-    await pool.request()
-      .input('MAKH', sql.Int, decoded.MAKH)
-      .input('MATKHAU', sql.VarChar, hashed)
-      .query('UPDATE KHACHHANG SET MATKHAU = @MATKHAU WHERE MAKH = @MAKH');
+    await updateUserPassword(decoded.MAKH, hashed);
 
     res.json({ message: 'Đặt lại mật khẩu thành công!' });
   } catch (error) {

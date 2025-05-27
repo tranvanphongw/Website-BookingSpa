@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
+
+import { UserProvider, UserContext } from './components/contexts/UserContext';
 
 import Layout from './components/Layout/Layout';
 import Home from './components/Home/Home';
@@ -20,28 +21,21 @@ import Rating from './components/Rating/Rating';
 import Payment from './components/Payment/Payment';
 import Employees from './components/Employee/EmployeeList';
 
-import AboutSpa from './components/AboutSpa/AboutSpa'; // Trang giới thiệu spa
+import AboutSpa from './components/AboutSpa/AboutSpa';
 import FaqSection from './components/Faq/FaqSection';
 
-import ServiceDetail from './components/ServiceDetail/ServiceDetail'; 
+import ServiceDetail from './components/ServiceDetail/ServiceDetail';
 import EmployeeRatingDetails from './components/Employee/EmployeeRatingDetails';
 
 import ForgotPassword from './components/Login/ForgotPassword';
 import ResetPassword from './components/Login/ResetPassword';
 
 import Profile from './components/Profile/Profile';
-function App() {
-  const token = localStorage.getItem('token');
-  let isAdmin = false;
 
-  if (token) {
-    try {
-      const decodedToken = jwtDecode(token);
-      isAdmin = decodedToken.role === 'admin';
-    } catch (error) {
-      console.error('Token không hợp lệ:', error);
-    }
-  }
+// Tách phần routes ra thành component riêng để dùng context
+function AppRoutes() {
+  const { user } = useContext(UserContext);
+  const isAdmin = user?.role === 'admin';
 
   return (
     <Router>
@@ -59,7 +53,7 @@ function App() {
           <Route path="/employees" element={<Employees />} />
           <Route path="/faq" element={<FaqSection />} />
           <Route path="/service-detail/:id" element={<ServiceDetail />} />
-          <Route path="/employee-ratings/:empId" element={<EmployeeRatingDetails />} /> 
+          <Route path="/employee-ratings/:empId" element={<EmployeeRatingDetails />} />
           <Route path="/profile" element={<Profile />} />
 
           <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -81,6 +75,14 @@ function App() {
         </Routes>
       </Layout>
     </Router>
+  );
+}
+
+function App() {
+  return (
+    <UserProvider>
+      <AppRoutes />
+    </UserProvider>
   );
 }
 
