@@ -17,7 +17,26 @@ const BookingManager = () => {
     setError(null);
     try {
       const res = await axios.get('http://localhost:5000/api/bookings');
-      setBookings(res.data);
+      const bookings = res.data;
+
+      // Lấy dịch vụ con và tổng tiền cho các booking gói
+      const bookingsWithDetails = await Promise.all(
+        bookings.map(async (b) => {
+          if (b.MAGOI) {
+            try {
+              const detailsRes = await axios.get(`http://localhost:5000/api/packages/${b.MAGOI}/details`);
+              const packageDetails = detailsRes.data;
+              const total = packageDetails.reduce((sum, dv) => sum + (dv.GIATIEN || 0), 0);
+              return { ...b, packageDetails, packageTotal: total };
+            } catch {
+              return { ...b, packageDetails: [], packageTotal: 0 };
+            }
+          }
+          // Dịch vụ lẻ
+          return { ...b, packageDetails: null, packageTotal: b.GIATIEN || 0 };
+        })
+      );
+      setBookings(bookingsWithDetails);
     } catch (err) {
       setError('Không thể tải danh sách đặt lịch!');
       console.error('Error fetching bookings:', err);
@@ -42,7 +61,20 @@ const BookingManager = () => {
     }
   };
 
-  function handlePrintInvoicePopup(booking) {
+  async function handlePrintInvoicePopup(booking) {
+    let serviceDetails = [];
+    let total = 0;
+    if (booking.MAGOI) {
+      try {
+        const res = await axios.get(`http://localhost:5000/api/packages/${booking.MAGOI}/details`);
+        serviceDetails = res.data;
+        total = serviceDetails.reduce((sum, dv) => sum + (dv.GIATIEN || 0), 0);
+      } catch {
+        serviceDetails = [];
+        total = 0;
+      }
+    }
+
     const printWindow = window.open('', '_blank', 'width=800,height=600');
     if (printWindow) {
       const receiptHTML = `
@@ -65,13 +97,15 @@ const BookingManager = () => {
             .total { font-weight: bold; font-size: 16px; text-align: right; margin: 15px 0; }
             .footer { text-align: center; margin-top: 30px; font-size: 14px; color: #666; }
             .footer p { margin: 5px 0; }
+            .service-list { margin: 10px 0; }
+            .service-list li { margin: 5px 0; }
             @media print { body { print-color-adjust: exact; -webkit-print-color-adjust: exact; } .invoice-container { border: none; } }
           </style>
         </head>
         <body>
           <div class="invoice-container">
             <div class="header">
-              <h1>SPA BOOKINGBOOKING</h1>
+              <h1>SPA BOOKING</h1>
               <p>Địa chỉ: Số 1, Đường ABC, TP.HCM</p>
               <p>Điện thoại: 0123456789</p>
             </div>
@@ -80,13 +114,27 @@ const BookingManager = () => {
               <div><strong>Mã lịch:</strong> <span>${booking.MALICH}</span></div>
               <div><strong>Ngày:</strong> <span>${booking.THOIGIANBATDAU ? new Date(booking.THOIGIANBATDAU).toLocaleDateString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }) : ''}</span></div>
               <div><strong>Khách hàng:</strong> <span>${booking.TENKH}</span></div>
-              <div><strong>Dịch vụ:</strong> <span>${booking.TENDV}</span></div>
+              <div><strong>Dịch vụ:</strong> <span>${booking.MAGOI ? booking.TENGOI : booking.TENDV}</span></div>
+              ${
+                booking.MAGOI && serviceDetails.length > 0
+                  ? `<div class="service-list">
+                      <strong>Chi tiết gói dịch vụ:</strong>
+                      <ul>
+                        ${serviceDetails.map(dv => `<li>${dv.TEN} (${dv.GIATIEN.toLocaleString()}đ)</li>`).join('')}
+                      </ul>
+                    </div>`
+                  : ''
+              }
               <div><strong>Nhân viên:</strong> <span>${booking.TENNV}</span></div>
               <div><strong>Thời gian:</strong> <span>${booking.THOIGIANBATDAU ? new Date(booking.THOIGIANBATDAU).toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }) : ''}</span></div>
             </div>
             <div class="divider"></div>
             <div class="total">
-              <span>Tổng cộng: ${booking.TONGTIEN ? new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(booking.TONGTIEN) : ''}</span>
+              <span>Tổng cộng: ${
+                booking.MAGOI
+                  ? total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
+                  : (booking.GIATIEN || 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
+              }</span>
             </div>
             <div class="footer">
               <p>Cảm ơn Quý khách đã sử dụng dịch vụ của chúng tôi!</p>
@@ -105,7 +153,7 @@ const BookingManager = () => {
       printWindow.document.write(receiptHTML);
       printWindow.document.close();
     } else {
-      alert("Không thể mở cửa sổ in. Vui lòng kiểm tra cài đặt trình duyệt của bạn.");
+      alert('Không thể mở cửa sổ in. Vui lòng kiểm tra cài đặt trình duyệt của bạn.');
     }
   }
 
@@ -134,7 +182,6 @@ const BookingManager = () => {
           <option value="Pending">Chờ thanh toán</option>
           <option value="Processing">Đang xử lý</option>
           <option value="Paid">Đã thanh toán</option>
-         
         </select>
         <button onClick={fetchBookings} className="refresh-btn">
           Làm mới
@@ -161,7 +208,11 @@ const BookingManager = () => {
               <tr key={b.MALICH}>
                 <td>{b.MALICH}</td>
                 <td>{b.TENKH}</td>
-                <td>{b.TENDV}</td>
+                <td>
+                  {b.TENGOI
+                    ? `Gói: ${b.TENGOI}`
+                    : b.TENDV}
+                </td>
                 <td>{b.TENNV}</td>
                 <td>{b.THOIGIANBATDAU ? new Date(b.THOIGIANBATDAU).toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }) : ''}</td>
                 <td>
@@ -173,11 +224,10 @@ const BookingManager = () => {
                     <option value="Pending">Chờ thanh toán</option>
                     <option value="Processing">Đang xử lý</option>
                     <option value="Paid">Đã thanh toán</option>
-                   
                   </select>
                 </td>
                 <td className="action-buttons">
-                  <button onClick={() => handlePrintInvoicePopup(b)} className="print-btn">
+                  <button onClick={async () => await handlePrintInvoicePopup(b)} className="print-btn">
                     In hóa đơn
                   </button>
                   <button onClick={() => handleDeleteBooking(b.MALICH)} className="delete-btn">
@@ -195,4 +245,4 @@ const BookingManager = () => {
   );
 };
 
-export default BookingManager;
+export default BookingManager; 

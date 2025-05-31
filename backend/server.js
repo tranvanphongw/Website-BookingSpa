@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -10,6 +11,10 @@ const paymentRoutes = require('./routes/payment.routes');
 const employeeRoutes = require('./routes/employee.routes');
 const khachhangRoutes = require('./routes/khachhang.routes');
 const scheduleRoutes = require('./routes/schedule.routes');
+const packageRoutes = require('./routes/package.routes');
+const goiDichVuRoutes = require('./routes/goiDichVu.routes');
+
+const reportRoutes = require('./routes/report.routes');
 
 const forgotRoutes = require('./routes/forgot.routes');
 
@@ -19,6 +24,7 @@ const app = express();
 dotenv.config();
 
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
@@ -35,12 +41,15 @@ poolPromise
     app.use('/api/services', serviceRoutes);
     app.use('/api/bookings', bookingRoutes);
     app.use('/api/ratings', ratingRoutes);
-    app.use('/api/payments', paymentRoutes);
+    app.use('/api/payment', paymentRoutes);
     app.use('/api/employees', employeeRoutes);
     app.use('/api/khachhang', khachhangRoutes);
     app.use('/api/schedules', scheduleRoutes);
-
+    app.use('/api/packages', packageRoutes);
     app.use('/api/auth', forgotRoutes);
+    app.use('/api/goidichvu', goiDichVuRoutes);
+
+    app.use('/api/report', reportRoutes);
 
     app.get('/', (req, res) => {
       res.send('Spa Booking API is running...');

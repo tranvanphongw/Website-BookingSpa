@@ -53,7 +53,8 @@ async function getEmployees(req, res) {
 
 async function getBookings(req, res) {
   try {
-    const bookings = await bookingModel.getBookings();
+    const MAKH = req.query.MAKH ? parseInt(req.query.MAKH, 10) : null;
+    const bookings = await bookingModel.getBookings(MAKH);
     res.json(bookings);
   } catch (err) {
     console.error('Error in getBookings:', err);
@@ -66,7 +67,6 @@ async function getBookingById(req, res) {
     const booking = await bookingModel.getBookingById(req.params.MALICH);
     if (!booking) return res.status(404).json({ message: 'Booking not found' });
 
-    // Convert datetime to ISO strings
     if (booking.THOIGIANBATDAU) booking.THOIGIANBATDAU = new Date(booking.THOIGIANBATDAU).toISOString();
     if (booking.THOIGIANKETTHUC) booking.THOIGIANKETTHUC = new Date(booking.THOIGIANKETTHUC).toISOString();
 
@@ -79,6 +79,39 @@ async function getBookingById(req, res) {
 
 async function createBooking(req, res) {
   try {
+    const { MANV, MADV, MAGOI, THOIGIANBATDAU } = req.body;
+    let THOIGIANKETTHUC = null;
+    const pool = await require('../config/db').poolPromise;
+    const sql = require('mssql');
+
+    if (!MAGOI) {
+      const start = new Date(THOIGIANBATDAU);
+      const dv = await pool.request()
+        .input('MADV', sql.Int, Array.isArray(MADV) ? MADV[0] : MADV)
+        .query('SELECT THOIGIANTHUCHIEN FROM DICHVU WHERE MADV = @MADV');
+      const duration = dv.recordset[0]?.THOIGIANTHUCHIEN || 60;
+      const end = new Date(start.getTime() + duration * 60000);
+
+      console.log('Check busy:', {
+        MANV,
+        THOIGIANBATDAU: start.toISOString(),
+        THOIGIANKETTHUC: end.toISOString(),
+        duration
+      });
+
+      const isBusy = await bookingModel.isEmployeeBusy({
+        MANV,
+        THOIGIANBATDAU: start.toISOString(),
+        THOIGIANKETTHUC: end.toISOString()
+      });
+      console.log('isBusy:', isBusy);
+      if (isBusy) {
+        return res.status(400).json({ message: 'Nhân viên này đã được đặt, vui lòng chọn 1 nhân viên khác.' });
+      }
+      req.body.THOIGIANKETTHUC = end.toISOString();
+      req.body.THOIGIANBATDAU = start.toISOString();
+    }
+
     await bookingModel.createBooking(req.body);
     res.status(201).json({ message: 'Created booking successfully' });
   } catch (err) {

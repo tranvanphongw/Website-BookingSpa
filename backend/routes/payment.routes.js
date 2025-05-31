@@ -1,15 +1,19 @@
 const express = require('express');
 const router = express.Router();
+const paymentController = require('../controllers/payment.controller');
 
-const { getAllPayments, addPayment, deletePayment } = require('../controllers/payment.controller');
+// Tạo đơn thanh toán MoMo
+router.post('/create', paymentController.createPayment);
 
-// GET /api/payments
-router.get('/', getAllPayments);
+// Callback khi thanh toán xong redirect về (returnUrl)
+router.get('/return', paymentController.paymentReturn);
 
-// POST /api/payments
-router.post('/', addPayment);
+// Webhook notify MoMo gọi để thông báo trạng thái thanh toán
+router.post('/notify', paymentController.paymentNotify);
 
-// DELETE /api/payments/:MATHANHTOAN
-router.delete('/:MATHANHTOAN', deletePayment);
+router.get('/all', paymentController.getAllPayments);
+router.get('/customer/:MAKH', paymentController.getPaymentsByCustomer);
+router.get('/booking/:MALICH', paymentController.getPaymentsByBooking);
 
-module.exports = router;  
+
+module.exports = router;

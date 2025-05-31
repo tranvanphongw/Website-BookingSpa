@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import ServiceList from './ServiceList';
 import AddService from './AddService';
 import EditService from './EditService';
-import EmployeeList from './EmployeeList'; // Import danh sách nhân viên
-import BookingManager from './BookingManager'; // Import BookingManager component
-import './AdminDashboard.css'; // Import CSS file để cải thiện giao diện
+import EmployeeList from './EmployeeList';
+import BookingManager from './BookingManager';
 import EmployeeScheduling from './EmployeeScheduling';
+import AdminPayments from './AdminPayments';
+import GoiDichVuManager from './GoiDichVuManager';
+import Report from './Report';  // Import component mới
+import './AdminDashboard.css';
+
 const AdminDashboard = () => {
-  const [selectedTab, setSelectedTab] = useState('serviceList'); // Tab mặc định là Service List
+  const [selectedTab, setSelectedTab] = useState('serviceList');
 
   return (
     <div className="admin-dashboard">
@@ -20,8 +24,12 @@ const AdminDashboard = () => {
           >
             Quản Lý dịch vụ
           </li>
-         
-          
+          <li
+            className={selectedTab === 'packageManager' ? 'active' : ''}
+            onClick={() => setSelectedTab('packageManager')}
+          >
+            Quản lý gói dịch vụ
+          </li>
           <li
             className={selectedTab === 'listEmployees' ? 'active' : ''}
             onClick={() => setSelectedTab('listEmployees')}
@@ -40,6 +48,18 @@ const AdminDashboard = () => {
           >
             Quản lý đặt lịch
           </li>
+          <li
+            className={selectedTab === 'payments' ? 'active' : ''}
+            onClick={() => setSelectedTab('payments')}
+          >
+            Quản lý thanh toán
+          </li>
+          <li
+            className={selectedTab === 'report' ? 'active' : ''}
+            onClick={() => setSelectedTab('report')}
+          >
+            Báo cáo
+          </li>
         </ul>
       </div>
 
@@ -50,6 +70,9 @@ const AdminDashboard = () => {
         {selectedTab === 'listEmployees' && <EmployeeList />}
         {selectedTab === 'listBookings' && <BookingManager />}
         {selectedTab === 'emPloyeeScheduling' && <EmployeeScheduling />}
+        {selectedTab === 'payments' && <AdminPayments />}
+        {selectedTab === 'packageManager' && <GoiDichVuManager />}
+        {selectedTab === 'report' && <Report />} {/* Tab báo cáo */}
       </div>
     </div>
   );

@@ -15,6 +15,10 @@ import EditService from './components/admin/EditService';
 import AdminDashboard from './components/admin/AdminDashboard';
 import BookingManager from './components/admin/BookingManager';
 import EmployeeScheduling from './components/admin/EmployeeScheduling';
+import AdminPayments from './components/admin/AdminPayments'; // Import component mới
+import GoiDichVuManager from './components/admin/GoiDichVuManager';
+
+import Report from './components/admin/Report';
 
 import Booking from './components/Booking/Booking';
 import Rating from './components/Rating/Rating';
@@ -31,6 +35,8 @@ import ForgotPassword from './components/Login/ForgotPassword';
 import ResetPassword from './components/Login/ResetPassword';
 
 import Profile from './components/Profile/Profile';
+
+
 
 // Tách phần routes ra thành component riêng để dùng context
 function AppRoutes() {
@@ -68,6 +74,11 @@ function AppRoutes() {
               <Route path="/admin/services/edit/:id" element={<EditService />} />
               <Route path="/admin/bookings" element={<BookingManager />} />
               <Route path="/admin/employee-scheduling" element={<EmployeeScheduling />} />
+              <Route path="/admin/payments" element={<AdminPayments />} /> {/* Thêm route quản lý thanh toán */}
+              <Route path="/admin/packages" element={<GoiDichVuManager />} />
+
+              <Route path="/report" element={<Report />} />
+
             </>
           ) : (
             <Route path="/admin/*" element={<Navigate to="/" />} />
