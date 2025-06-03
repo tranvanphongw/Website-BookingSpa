@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const https = require('https');
 const { addPayment, getPaymentsByCustomer, getPaymentsByBooking, getAllPayments } = require('../models/payment.model');
 const { updateBooking } = require('../models/booking.model');
-
+const sql = require('mssql');
 const {
   partnerCode,
   accessKey,
@@ -12,6 +12,38 @@ const {
   ipnUrl,
   requestType,
 } = config;
+
+// Thêm thanh toán tiền mặt
+exports.addCashPayment = async (req, res) => {
+  try {
+    const { MALICH, MAKH, SOTIEN, NGAYTHANHTOAN, HINHTHUCTHANHTOAN } = req.body;
+
+    // Thêm thanh toán
+    const { insertedId, receipt } = await addPayment({
+      MALICH,
+      MAKH,
+      SOTIEN,
+      NGAYTHANHTOAN,
+      HINHTHUCTHANHTOAN
+    });
+
+    // Cập nhật trạng thái đặt lịch
+    await updateBooking({ MALICH, TRANGTHAI: 'Processing' });
+
+    res.status(201).json({
+      message: 'Thanh toán thành công!',
+      paymentId: insertedId,
+      receipt
+    });
+  } catch (error) {
+    console.error('Cash payment error:', error);
+    res.status(500).json({ 
+      message: error.message || 'Lỗi khi xử lý thanh toán tiền mặt'
+    });
+  }
+};
+//Hết
+
 
 exports.createPayment = (req, res) => {
   const { amount, orderInfo, orderId, extraData } = req.body;
@@ -123,11 +155,13 @@ exports.paymentNotify = async (req, res) => {
       requestType,
     } = data;
 
+    // Check config
     if (!accessKey || !secretKey) {
       console.error('MOMO keys not set in config');
       return res.status(500).json({ resultCode: 1, message: 'Server config error' });
     }
 
+    // Generate raw signature (just for log or debug)
     const rawSignature =
       `accessKey=${accessKey}` +
       `&amount=${amount}` +
@@ -144,69 +178,69 @@ exports.paymentNotify = async (req, res) => {
     const expectedSignature = crypto.createHmac('sha256', secretKey).update(rawSignature).digest('hex');
 
     console.log('--- MoMo Webhook Notify ---');
+    console.log(`[IPN] orderId=${orderId}, resultCode=${resultCode}`);
     console.log('Raw Signature:', rawSignature);
     console.log('Received Signature:', momoSignature);
     console.log('Expected Signature:', expectedSignature);
 
-    if (momoSignature !== expectedSignature) {
-      console.warn('Signature mismatch detected, but processing webhook anyway');
+    // ✅ Bỏ qua signature check trong môi trường test
+    if (String(resultCode) !== '0') {
+      console.warn(`❌ Payment failed or cancelled (resultCode=${resultCode}), skipping update.`);
+      return res.status(204).send(); // No content
     }
 
-    if (parseInt(resultCode, 10) === 0) {
-      let MALICH = null;
-      let MAKH = null;
+    // ✅ Xử lý khi thanh toán thành công
+    let MALICH = null;
+    let MAKH = null;
 
-      try {
-        if (extraData) {
-          const extra = JSON.parse(extraData);
-          MALICH = extra.MALICH;
-          MAKH = extra.MAKH;
-        }
-      } catch {
-        console.warn('extraData is not valid JSON:', extraData);
+    try {
+      if (extraData) {
+        const extra = JSON.parse(extraData);
+        MALICH = extra.MALICH;
+        MAKH = extra.MAKH;
       }
-
-      if (!MALICH) {
-        MALICH = parseInt(orderId.replace(/^MOMO/, ''), 10);
-      }
-
-      if (typeof MALICH !== 'number' || isNaN(MALICH)) {
-        console.error('Invalid MALICH:', MALICH);
-        return res.status(400).json({ resultCode: 1, message: 'Invalid MALICH' });
-      }
-
-      try {
-        const { insertedId, receipt } = await addPayment({
-          MALICH,
-          MAKH: MAKH || 0,
-          SOTIEN: amount,
-          NGAYTHANHTOAN: new Date(),
-          HINHTHUCTHANHTOAN: 'MoMo',
-        });
-        console.log(`Payment record added with ID=${insertedId}`, receipt);
-      } catch (paymentErr) {
-        console.error('Add payment error:', paymentErr);
-        return res.status(500).json({ resultCode: 1, message: 'Add payment failed' });
-      }
-
-      try {
-        await updateBooking({ MALICH, TRANGTHAI: 'Paid' });
-        console.log(`Booking status updated to Paid for MALICH=${MALICH}`);
-      } catch (updateErr) {
-        console.error('Update booking error:', updateErr);
-        return res.status(500).json({ resultCode: 1, message: 'Update booking failed' });
-      }
-
-      return res.status(204).send();
-    } else {
-      console.warn(`Payment failed or cancelled: orderId=${orderId}, resultCode=${resultCode}`);
-      return res.status(204).send();
+    } catch {
+      console.warn('⚠️ extraData is not valid JSON:', extraData);
     }
+
+    if (!MALICH) {
+      MALICH = parseInt(orderId.replace(/^MOMO/, ''), 10);
+    }
+
+    if (!MALICH || isNaN(MALICH)) {
+      console.error('❌ Invalid MALICH:', MALICH);
+      return res.status(400).json({ resultCode: 1, message: 'Invalid MALICH' });
+    }
+
+    try {
+      const { insertedId, receipt } = await addPayment({
+        MALICH,
+        MAKH: MAKH || 0,
+        SOTIEN: amount,
+        NGAYTHANHTOAN: new Date(),
+        HINHTHUCTHANHTOAN: 'MoMo',
+      });
+      console.log(`✅ Payment record added with ID=${insertedId}`, receipt);
+    } catch (paymentErr) {
+      console.error('❌ Add payment error:', paymentErr);
+      return res.status(500).json({ resultCode: 1, message: 'Add payment failed' });
+    }
+
+    try {
+      await updateBooking({ MALICH, TRANGTHAI: 'Paid' });
+      console.log(`✅ Booking status updated to Paid for MALICH=${MALICH}`);
+    } catch (updateErr) {
+      console.error('❌ Update booking error:', updateErr);
+      return res.status(500).json({ resultCode: 1, message: 'Update booking failed' });
+    }
+
+    return res.status(204).send();
   } catch (err) {
-    console.error('Webhook notify error:', err);
+    console.error('❌ Webhook notify error:', err);
     return res.status(500).json({ resultCode: 1, message: 'Internal server error' });
   }
 };
+
 
 exports.getPaymentsByCustomer = async (req, res) => {
   try {

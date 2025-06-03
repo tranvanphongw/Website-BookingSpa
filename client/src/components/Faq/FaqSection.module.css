@@ -1,10 +1,10 @@
 /* FaqSection.module.css */
 
 .faqSection {
-  background-color: #f9f6ed;
+  background: linear-gradient(135deg, #f8f9fa 0%, #fffbe7 100%);
   padding: 60px 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #3b2f2f;
+  font-family: "Inter", "Segoe UI", "Helvetica Neue", sans-serif;
+  color: #2d3748;
 }
 
 .intro {
@@ -16,13 +16,29 @@
 .heading {
   font-size: 2.5rem;
   margin-bottom: 1rem;
-  font-weight: 700;
+  font-weight: 200;
+  color: #c9a961;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.heading::after {
+  content: "";
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #c9a961, #d4b76a);
+  border-radius: 2px;
 }
 
 .subtext {
   font-size: 1.1rem;
   line-height: 1.6;
-  color: #5a504f;
+  color: #4a5568;
 }
 
 .image img {
@@ -30,17 +46,17 @@
   margin: 40px auto;
   max-width: 1000px;
   width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(201, 169, 97, 0.1);
 }
 
 .faqBox {
-  background-color: #fff;
+  background: #fff;
   max-width: 700px;
   margin: 0 auto;
-  padding: 30px 25px;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  padding: 36px 28px;
+  border-radius: 22px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
 }
 
 .faqTitle {
@@ -48,7 +64,8 @@
   font-weight: 600;
   margin-bottom: 20px;
   text-align: left;
-  color: #3b2f2f;
+  color: #c9a961;
+  letter-spacing: 1px;
 }
 
 .accordion {
@@ -58,10 +75,15 @@
 }
 
 .accordionItem {
-  border-top: 1px solid #e5e5e5;
-  padding: 14px 0;
+  border-top: 1px solid #e2e8f0;
+  padding: 16px 0;
   cursor: pointer;
   text-align: left;
+  transition: background 0.2s;
+}
+
+.accordionItem:last-child {
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .accordionHeader {
@@ -69,25 +91,44 @@
   justify-content: space-between;
   font-weight: 600;
   font-size: 1.1rem;
-  color: #3b2f2f;
+  color: #2d3748;
   user-select: none;
+  transition: color 0.2s;
 }
 
 .accordionHeader span:last-child {
   font-weight: 900;
   font-size: 1.2rem;
-  color: #e91e63;
+  color: #c9a961;
+  transition: color 0.2s;
 }
 
 .accordionContent {
   margin-top: 10px;
-  color: #5a504f;
+  color: #4a5568;
   font-size: 1rem;
   line-height: 1.5;
-  white-space: pre-line; /* để xuống dòng trong nội dung có dấu xuống dòng */
+  white-space: pre-line;
+  padding-left: 4px;
 }
 
-/* Thêm hiệu ứng hover cho header */
+/* Hover effect */
 .accordionItem:hover .accordionHeader {
-  color: #e91e63;
+  color: #c9a961;
+}
+
+.accordionItem:hover .accordionHeader span:last-child {
+  color: #d4b76a;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .faqBox {
+    padding: 16px 4px;
+    border-radius: 12px;
+  }
+
+  .heading {
+    font-size: 1.3rem;
+  }
 }

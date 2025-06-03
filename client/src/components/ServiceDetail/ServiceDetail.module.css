@@ -1,11 +1,12 @@
 .detailContainer {
   max-width: 900px;
   margin: 40px auto 0 auto;
-  background: linear-gradient(120deg, #f8fafc 60%, #e0f7fa 100%);
-  border-radius: 32px;
-  box-shadow: 0 8px 32px rgba(21,152,149,0.10);
-  padding: 40px 24px 32px 24px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-radius: 28px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  padding: 48px 24px 36px 24px;
   text-align: center;
+  font-family: "Inter", "Segoe UI", "Helvetica Neue", sans-serif;
 }
 
 .card {
@@ -18,76 +19,120 @@
   width: 340px;
   height: 240px;
   object-fit: cover;
-  border-radius: 24px;
-  box-shadow: 0 4px 24px rgba(21,152,149,0.10);
+  border-radius: 22px;
+  box-shadow: 0 4px 24px rgba(201,169,97,0.10);
   margin-bottom: 24px;
+  background: #f8f9fa;
 }
 
 .info {
   max-width: 600px;
+  margin: 0 auto;
 }
 
 .title {
   font-size: 2.2rem;
-  color: #159895;
-  font-weight: 800;
+  color: #c9a961;
+  font-weight: 700;
   margin-bottom: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  position: relative;
+  padding-bottom: 10px;
+}
+.title::after {
+  content: "";
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #c9a961, #d4b76a);
+  border-radius: 2px;
 }
 
 .price {
-  color: #ff5c8d;
+  color: #c9a961;
   font-size: 1.3rem;
   font-weight: bold;
   margin-bottom: 16px;
+  letter-spacing: 0.5px;
 }
 
 .desc {
   font-size: 1.1rem;
-  color: #555;
+  color: #4a5568;
   margin-bottom: 18px;
+  font-weight: 300;
 }
 
 .detail {
   font-size: 1.05rem;
-  color: #333;
+  color: #2d3748;
   margin-bottom: 28px;
+  font-weight: 400;
 }
 
 .bookBtn {
-  background: linear-gradient(90deg, #ff5c8d 0%, #fbbf24 100%);
+  background: linear-gradient(135deg, #c9a961 0%, #d4b76a 100%);
   color: white;
   padding: 14px 38px;
-  border-radius: 32px;
+  border-radius: 50px;
   font-size: 1.15rem;
-  font-weight: bold;
+  font-weight: 600;
   text-decoration: none;
-  transition: background 0.3s, transform 0.2s;
-  box-shadow: 0 4px 16px rgba(255, 92, 141, 0.13);
+  transition: all 0.3s;
+  box-shadow: 0 8px 25px rgba(201, 169, 97, 0.15);
   border: none;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 10px;
 }
-
 .bookBtn:hover {
-  background: linear-gradient(90deg, #fbbf24 0%, #ff5c8d 100%);
-  transform: scale(1.06);
+  background: transparent;
+  color: #c9a961;
+  border: 2px solid #c9a961;
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 15px 40px rgba(201, 169, 97, 0.2);
 }
 
 .backLink {
   display: inline-block;
   margin-top: 32px;
-  color: #159895;
+  color: #c9a961;
   font-weight: 600;
   text-decoration: none;
   font-size: 1.05rem;
   transition: color 0.2s;
 }
-
 .backLink:hover {
-  color: #ff5c8d;
+  color: #d4b76a;
+  text-decoration: underline;
 }
 
 .notFound {
   text-align: center;
-  color: #ff5c8d;
+  color: #dc2626;
   font-size: 1.3rem;
   margin-top: 60px;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .detailContainer {
+    padding: 18px 4px 16px 4px;
+  }
+  .image {
+    width: 100%;
+    height: 180px;
+    border-radius: 14px;
+  }
+  .title {
+    font-size: 1.3rem;
+  }
+  .bookBtn {
+    padding: 10px 18px;
+    font-size: 1rem;
+  }
 }

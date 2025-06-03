@@ -1,20 +1,41 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { UserContext } from '../contexts/UserContext';  // import UserContext
+import { UserContext } from '../contexts/UserContext'; 
 import styles from './Layout.module.css';
 
 const Layout = ({ children }) => {
-  const { user, logout } = useContext(UserContext);  // lấy user, logout từ context
+  const { user, logout } = useContext(UserContext);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const dropdownRef = useRef(null);
 
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleLogout = () => {
-    logout();  // gọi logout trong context để clear user và token
+    logout();
+    setShowDropdown(false);
     navigate('/login');
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    if (showDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showDropdown]);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -26,7 +47,37 @@ const Layout = ({ children }) => {
     <div className={styles['layout-container']}>
       <header className={styles.header}>
         <div className={styles['header-content']}>
-          <Link to="/" className={styles['navbar-brand']}>Spa Booking</Link>
+          <Link to="/" className={styles['navbar-brand']}>
+           <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="150"
+              height="40"
+              viewBox="0 0 200 60"
+              aria-label="SpaBooking Logo"
+              role="img"
+            >
+              <defs>
+                <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#0D47A1" />
+                  <stop offset="100%" stopColor="#1976D2" />
+                </linearGradient>
+              </defs>
+              <rect width="200" height="60" rx="12" ry="12" fill="url(#grad1)" />
+              <text
+                x="100"
+                y="40"
+                fontSize="28"
+                fontWeight="700"
+                fontFamily="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                fill="white"
+                textAnchor="middle"
+                letterSpacing="2"
+              >
+                SpaBooking
+              </text>
+            </svg>
+
+          </Link>
 
           <button
             className={styles['mobile-toggle']}
@@ -51,7 +102,7 @@ const Layout = ({ children }) => {
 
             <div className={styles['auth-section']}>
               {user ? (
-                <div className={styles['user-dropdown']}>
+                <div className={styles['user-dropdown']} ref={dropdownRef}>
                   <button
                     className={styles['user-button']}
                     onClick={() => setShowDropdown(!showDropdown)}
@@ -62,9 +113,20 @@ const Layout = ({ children }) => {
                   {showDropdown && (
                     <div className={styles['dropdown-menu']}>
                       {user.role !== 'admin' && (
-                        <Link to="/profile" className={styles['dropdown-item']}>Hồ sơ</Link>
+                        <Link
+                          to="/profile"
+                          className={styles['dropdown-item']}
+                          onClick={() => setShowDropdown(false)}
+                        >
+                          Hồ sơ
+                        </Link>
                       )}
-                      <button onClick={handleLogout} className={styles['dropdown-item']}>Đăng xuất</button>
+                      <button
+                        onClick={handleLogout}
+                        className={styles['dropdown-item']}
+                      >
+                        Đăng xuất
+                      </button>
                     </div>
                   )}
                 </div>

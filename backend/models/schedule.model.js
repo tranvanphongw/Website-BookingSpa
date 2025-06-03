@@ -2,131 +2,132 @@ const sql = require('mssql');
 const { poolPromise } = require('../config/db');
 
 class Schedule {
-  // Get all schedules
   static async getAll() {
-    try {
-      const pool = await poolPromise;
-      const result = await pool.request().query(`
-        SELECT LS.*, NV.TEN as TENNHANVIEN 
+    const pool = await poolPromise;
+    const result = await pool.request().query(`
+      SELECT LS.*, NV.TEN as TENNHANVIEN
+      FROM LICHLAMVIEC LS
+      JOIN NHANVIEN NV ON LS.MANV = NV.MANV
+      ORDER BY LS.NGAYLAM DESC
+    `);
+    return result.recordset;
+  }
+
+  static async getByDate(date) {
+    const pool = await poolPromise;
+    const result = await pool.request()
+      .input('NGAYLAM', sql.Date, date)
+      .query(`
+        SELECT LS.*, NV.TEN as TENNHANVIEN
         FROM LICHLAMVIEC LS
         JOIN NHANVIEN NV ON LS.MANV = NV.MANV
+        WHERE CONVERT(DATE, LS.NGAYLAM) = CONVERT(DATE, @NGAYLAM)
+        ORDER BY LS.THOIGIANBATDAU
+      `);
+    return result.recordset;
+  }
+
+  static async getByEmployeeId(employeeId) {
+    const pool = await poolPromise;
+    const result = await pool.request()
+      .input('MANV', sql.Int, employeeId)
+      .query(`
+        SELECT LS.*, NV.TEN as TENNHANVIEN
+        FROM LICHLAMVIEC LS
+        JOIN NHANVIEN NV ON LS.MANV = NV.MANV
+        WHERE LS.MANV = @MANV
         ORDER BY LS.NGAYLAM DESC
       `);
-      return result.recordset;
-    } catch (error) {
-      console.error('Schedule getAll error:', error);
-      throw error;
-    }
+    return result.recordset;
   }
 
-  // Get schedules for a specific employee
-  static async getByEmployeeId(employeeId) {
+  static async create(data) {
+    const pool = await poolPromise;
+    
+    // Validate and format time
+    const formatTime = (timeStr) => {
+      // Check if timeStr is in HH:mm format
+      const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+      if (!timeRegex.test(timeStr)) {
+        throw new Error('Invalid time format. Use HH:mm format');
+      }
+      // Ensure HH:mm format with leading zeros
+      const [hours, minutes] = timeStr.split(':').map(Number);
+      return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    };
+
     try {
-      const pool = await poolPromise;
-      const result = await pool.request()
-        .input('MANV', sql.Int, parseInt(employeeId, 10))
+      const startTime = formatTime(data.THOIGIANBATDAU);
+      const endTime = formatTime(data.THOIGIANKETTHUC);
+
+      await pool.request()
+        .input('MANV', sql.Int, data.MANV)
+        .input('NGAYLAM', sql.Date, data.NGAYLAM)
+        .input('THOIGIANBATDAU', sql.VarChar(5), startTime)
+        .input('THOIGIANKETTHUC', sql.VarChar(5), endTime)
+        .input('GHICHU', sql.NVarChar(255), data.GHICHU || null)
+        .input('TRANGTHAI', sql.Int, data.TRANGTHAI)
         .query(`
-          SELECT LS.*, NV.TEN as TENNHANVIEN
-          FROM LICHLAMVIEC LS
-          JOIN NHANVIEN NV ON LS.MANV = NV.MANV
-          WHERE LS.MANV = @MANV
-          ORDER BY LS.NGAYLAM DESC
+          INSERT INTO LICHLAMVIEC (
+            MANV, NGAYLAM, THOIGIANBATDAU, THOIGIANKETTHUC, GHICHU, TRANGTHAI
+          )
+          VALUES (
+            @MANV, @NGAYLAM, @THOIGIANBATDAU, @THOIGIANKETTHUC, @GHICHU, @TRANGTHAI
+          )
         `);
-      return result.recordset;
     } catch (error) {
-      console.error('Schedule getByEmployeeId error:', error);
-      throw error;
+      throw new Error(`Schedule creation failed: ${error.message}`);
     }
   }
 
-  // Get schedules for a specific date
-  static async getByDate(date) {
+  static async update(id, data) {
+    const pool = await poolPromise;
+    
+    // Validate and format time
+    const formatTime = (timeStr) => {
+      if (!timeStr) return null;
+      // Check if timeStr is in HH:mm format
+      const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+      if (!timeRegex.test(timeStr)) {
+        throw new Error('Invalid time format. Use HH:mm format');
+      }
+      // Ensure HH:mm format with leading zeros
+      const [hours, minutes] = timeStr.split(':').map(Number);
+      return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    };
+
     try {
-      // Ensure the date is properly formatted for SQL Server
-      const formattedDate = new Date(date).toISOString().split('T')[0];
-      
-      const pool = await poolPromise;
-      const result = await pool.request()
-        .input('NGAYLAM', sql.Date, formattedDate)
+      const startTime = formatTime(data.THOIGIANBATDAU);
+      const endTime = formatTime(data.THOIGIANKETTHUC);
+
+      await pool.request()
+        .input('MALICH', sql.Int, id)
+        .input('MANV', sql.Int, data.MANV)
+        .input('NGAYLAM', sql.Date, data.NGAYLAM)
+        .input('THOIGIANBATDAU', sql.VarChar(5), startTime)
+        .input('THOIGIANKETTHUC', sql.VarChar(5), endTime)
+        .input('GHICHU', sql.NVarChar(255), data.GHICHU || null)
+        .input('TRANGTHAI', sql.Int, data.TRANGTHAI)
         .query(`
-          SELECT LS.*, NV.TEN as TENNHANVIEN
-          FROM LICHLAMVIEC LS
-          JOIN NHANVIEN NV ON LS.MANV = NV.MANV
-          WHERE CONVERT(DATE, LS.NGAYLAM) = CONVERT(DATE, @NGAYLAM)
-          ORDER BY LS.GIOBATDAU
+          UPDATE LICHLAMVIEC
+          SET MANV=@MANV, 
+              NGAYLAM=@NGAYLAM, 
+              THOIGIANBATDAU=@THOIGIANBATDAU, 
+              THOIGIANKETTHUC=@THOIGIANKETTHUC, 
+              GHICHU=@GHICHU, 
+              TRANGTHAI=@TRANGTHAI
+          WHERE MALICH=@MALICH
         `);
-      return result.recordset;
     } catch (error) {
-      console.error('Schedule getByDate error:', error);
-      throw error;
+      throw new Error(`Schedule update failed: ${error.message}`);
     }
   }
 
-  // Create new schedule
-  static async create(scheduleData) {
-    try {
-      const { MANV, NGAYLAM, GIOBATDAU, GIOKETTHUC, GHICHU } = scheduleData;
-      
-      // Ensure the date is properly formatted for SQL Server
-      const formattedDate = new Date(NGAYLAM).toISOString().split('T')[0];
-      
-      const pool = await poolPromise;
-      const result = await pool.request()
-        .input('MANV', sql.Int, parseInt(MANV, 10))
-        .input('NGAYLAM', sql.Date, formattedDate)
-        .input('GIOBATDAU', sql.VarChar(10), GIOBATDAU)
-        .input('GIOKETTHUC', sql.VarChar(10), GIOKETTHUC)
-        .input('GHICHU', sql.NVarChar(255), GHICHU || null)
-        .query(`
-          INSERT INTO LICHLAMVIEC (MANV, NGAYLAM, GIOBATDAU, GIOKETTHUC, GHICHU)
-          VALUES (@MANV, @NGAYLAM, @GIOBATDAU, @GIOKETTHUC, @GHICHU);
-          SELECT SCOPE_IDENTITY() AS MALICH;
-        `);
-      return result.recordset[0].MALICH;
-    } catch (error) {
-      console.error('Schedule create error:', error);
-      throw error;
-    }
-  }
-
-  // Update a schedule
-  static async update(id, scheduleData) {
-    try {
-      const { MANV, NGAYLAM, GIOBATDAU, GIOKETTHUC, GHICHU } = scheduleData;
-      
-      const pool = await poolPromise;
-      const result = await pool.request()
-        .input('ID', sql.Int, parseInt(id, 10))
-        .input('MANV', sql.Int, parseInt(MANV, 10))
-        .input('NGAYLAM', sql.Date, new Date(NGAYLAM))
-        .input('GIOBATDAU', sql.VarChar(10), GIOBATDAU)
-        .input('GIOKETTHUC', sql.VarChar(10), GIOKETTHUC)
-        .input('GHICHU', sql.NVarChar(255), GHICHU || null)
-        .query(`
-          UPDATE LICHLAMVIEC 
-          SET MANV = @MANV, NGAYLAM = @NGAYLAM, GIOBATDAU = @GIOBATDAU, 
-              GIOKETTHUC = @GIOKETTHUC, GHICHU = @GHICHU
-          WHERE MALICH = @ID
-        `);
-      return result;
-    } catch (error) {
-      console.error('Schedule update error:', error);
-      throw error;
-    }
-  }
-
-  // Delete a schedule
   static async delete(id) {
-    try {
-      const pool = await poolPromise;
-      const result = await pool.request()
-        .input('ID', sql.Int, parseInt(id, 10))
-        .query('DELETE FROM LICHLAMVIEC WHERE MALICH = @ID');
-      return result;
-    } catch (error) {
-      console.error('Schedule delete error:', error);
-      throw error;
-    }
+    const pool = await poolPromise;
+    await pool.request()
+      .input('MALICH', sql.Int, id)
+      .query('DELETE FROM LICHLAMVIEC WHERE MALICH=@MALICH');
   }
 }
 

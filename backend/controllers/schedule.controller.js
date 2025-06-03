@@ -38,27 +38,42 @@ const getSchedulesByDate = async (req, res) => {
 // Add new schedule
 const addSchedule = async (req, res) => {
   try {
-    // Validate required fields
-    const { MANV, NGAYLAM, GIOBATDAU, GIOKETTHUC } = req.body;
+    const { MANV, NGAYLAM, THOIGIANBATDAU, THOIGIANKETTHUC } = req.body;
     
-    if (!MANV || !NGAYLAM || !GIOBATDAU || !GIOKETTHUC) {
-      return res.status(400).json({ 
-        message: 'Missing required fields',
-        required: 'MANV, NGAYLAM, GIOBATDAU, GIOKETTHUC' 
+    // Validate required fields
+    if (!MANV || !NGAYLAM || !THOIGIANBATDAU || !THOIGIANKETTHUC) {
+      return res.status(400).json({
+        message: 'Missing required fields'
       });
     }
-    
-    // Convert MANV to integer if it's a string
+
+    // Validate time format
+    const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+    if (!timeRegex.test(THOIGIANBATDAU) || !timeRegex.test(THOIGIANKETTHUC)) {
+      return res.status(400).json({
+        message: 'Invalid time format. Use HH:mm format'
+      });
+    }
+
+    // Create schedule data
     const scheduleData = {
-      ...req.body,
-      MANV: typeof MANV === 'string' ? parseInt(MANV, 10) : MANV
+      MANV: parseInt(MANV, 10),
+      NGAYLAM,
+      THOIGIANBATDAU: THOIGIANBATDAU.substring(0, 5),
+      THOIGIANKETTHUC: THOIGIANKETTHUC.substring(0, 5),
+      GHICHU: req.body.GHICHU || null,
+      TRANGTHAI: req.body.TRANGTHAI || 1
     };
-    
+
     await Schedule.create(scheduleData);
     res.status(201).json({ message: 'Schedule added successfully' });
+
   } catch (error) {
     console.error('addSchedule error:', error);
-    res.status(500).json({ message: 'Failed to add schedule', error: error.message });
+    res.status(500).json({ 
+      message: 'Failed to add schedule', 
+      error: error.message 
+    });
   }
 };
 
@@ -94,8 +109,8 @@ const deleteSchedule = async (req, res) => {
 
 module.exports = {
   getAllSchedules,
-  getSchedulesByEmployee,
   getSchedulesByDate,
+  getSchedulesByEmployee,
   addSchedule,
   updateSchedule,
   deleteSchedule

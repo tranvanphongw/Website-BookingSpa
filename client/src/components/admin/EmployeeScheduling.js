@@ -21,8 +21,7 @@ const EmployeeScheduling = () => {
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
   const [filterDate, setFilterDate] = useState(format(new Date(), 'yyyy-MM-dd'));
-  // eslint-disable-next-line no-unused-vars
-  const [filterEmployee, setFilterEmployee] = useState('');
+  //const [filterEmployee, setFilterEmployee] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   // Fetch all schedules and employees on component mount
@@ -229,6 +228,55 @@ const EmployeeScheduling = () => {
     }
   };
 
+  const formatTimeFromDateTime = (dateTimeString) => {
+  if (!dateTimeString) return 'N/A';
+
+  try {
+    const timeStr = String(dateTimeString).trim();
+
+    // Case 1: "1900-01-01 HH:mm:ss.000"
+    if (timeStr.includes('1900-01-01') && timeStr.includes(' ')) {
+      const parts = timeStr.split(' ');
+      if (parts.length > 1 && parts[1]) {
+        const [hh, mm] = parts[1].split(':');
+        if (hh !== undefined && mm !== undefined) {
+          return `${hh.padStart(2, '0')}:${mm.padStart(2, '0')}`;
+        }
+      }
+      return 'N/A';
+    }
+
+    // Case 2: "1900-01-01THH:mm:ss.000Z"
+    if (timeStr.includes('T')) {
+      // Lấy phần sau chữ T, ví dụ: "09:00:00.000Z"
+      const tPart = timeStr.split('T')[1];
+      if (tPart) {
+        const [hh, mm] = tPart.split(':');
+        if (hh !== undefined && mm !== undefined) {
+          return `${hh.padStart(2, '0')}:${mm.padStart(2, '0')}`;
+        }
+      }
+      return 'N/A';
+    }
+
+    // Case 3: "HH:mm" hoặc "HH:mm:ss"
+    if (timeStr.match(/^\d{2}:\d{2}/)) {
+      const [hh, mm] = timeStr.split(':');
+      if (hh !== undefined && mm !== undefined) {
+        return `${hh.padStart(2, '0')}:${mm.padStart(2, '0')}`;
+      }
+    }
+
+    return 'N/A';
+  } catch (error) {
+    console.error('Error formatting time:', error, {
+      input: dateTimeString,
+      type: typeof dateTimeString
+    });
+    return 'N/A';
+  }
+};
+
   return (
     <div className={styles['form-container']}>
       <h1>Quản Lý Lịch Làm Việc Nhân Viên</h1>
@@ -373,9 +421,9 @@ const EmployeeScheduling = () => {
                     <td>{schedule.MALICH}</td>
                     <td>{schedule.TENNHANVIEN || 'N/A'}</td>
                     <td>{formatDate(schedule.NGAYLAM)}</td>
-                    <td>{schedule.THOIGIANBATDAU ? schedule.THOIGIANBATDAU.substring(0, 5) : 'N/A'}</td>
-                    <td>{schedule.THOIGIANKETTHUC ? schedule.THOIGIANKETTHUC.substring(0, 5) : 'N/A'}</td>
-                    <td>{schedule.TRANGTHAI === 1 ? 'Hoạt động' : 'Không hoạt động'}</td>
+                    <td>{formatTimeFromDateTime(schedule.THOIGIANBATDAU)}</td>
+                    <td>{formatTimeFromDateTime(schedule.THOIGIANKETTHUC)}</td>
+                    <td>{Number(schedule.TRANGTHAI) === 1 ? 'Hoạt động' : 'Không hoạt động'}</td>
                     <td>{schedule.GHICHU || '-'}</td>
                     <td>
                       <button 

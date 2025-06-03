@@ -570,7 +570,7 @@ export default function Booking() {
                               Thanh toán
                             </button>
                             <button className={styles.cancelBtn} onClick={() => handleCancel(b.MALICH)}>
-                              Hủy
+                              Xóa
                             </button>
                           </>
                         ) : b.TRANGTHAI === 'Processing' ? (

@@ -6,24 +6,25 @@ const serviceData = {
   1: {
     title: 'Massage Thư Giãn',
     image: '/images/service-1.jpg',
-    price: '500.000 VND',
-    desc: 'Liệu pháp massage giúp thư giãn cơ bắp, giảm căng thẳng và cải thiện tuần hoàn máu. Đội ngũ chuyên viên giàu kinh nghiệm, không gian yên tĩnh, tinh dầu tự nhiên.',
+    price: 'Từ 500.000 VNĐ',
+    desc: 'Thư giãn và nghỉ ngơi với các liệu pháp massage trị liệu được thiết kế để giải tỏa căng thẳng và thúc đẩy sự thư giãn sâu.',
     detail: 'Massage thư giãn là sự kết hợp giữa kỹ thuật xoa bóp truyền thống và hiện đại, giúp giảm đau nhức, tăng cường lưu thông máu, giải tỏa stress và mang lại cảm giác thư thái tuyệt đối.'
   },
   2: {
     title: 'Chăm Sóc Da Mặt',
     image: '/images/service-2.jpg',
-    price: '250.000 VND',
-    desc: 'Quy trình chăm sóc da chuyên sâu giúp da sáng mịn, giảm nếp nhăn và cải thiện sắc tố. Sử dụng mỹ phẩm cao cấp, liệu trình cá nhân hóa.',
+    price: 'Từ 250.000 VNĐ',
+    desc: 'Làm tươi mới làn da của bạn với các liệu pháp chăm sóc da mặt tiên tiến sử dụng sản phẩm hữu cơ cao cấp và kỹ thuật hiện đại.',
     detail: 'Chăm sóc da mặt tại Spa sử dụng các sản phẩm thiên nhiên, kết hợp công nghệ hiện đại giúp làm sạch sâu, cấp ẩm, trẻ hóa làn da và ngăn ngừa lão hóa hiệu quả.'
   },
   3: {
-    title: 'Trị Liệu Toàn Thân',
+    title: 'Chăm Sóc Toàn Thân',
     image: '/images/service-3.jpg',
-    price: '600.000 VND',
-    desc: 'Liệu pháp toàn diện kết hợp tinh dầu thiên nhiên giúp thanh lọc cơ thể và tinh thần. Phù hợp cho người làm việc căng thẳng, cần phục hồi năng lượng.',
+    price: 'Từ 600.000 VNĐ',
+    desc: 'Chăm sóc sức khỏe toàn diện với các liệu pháp tổng thể kết hợp thành phần tự nhiên và kỹ thuật trị liệu.',
     detail: 'Trị liệu toàn thân là sự kết hợp giữa massage, xông hơi và các liệu pháp thảo dược, giúp giải độc, tăng sức đề kháng và mang lại cảm giác khỏe mạnh, sảng khoái.'
   },
+
   4: {
     title: 'Cắt Tóc Nữ',
     image: '/images/hair_cut_men.jpg',

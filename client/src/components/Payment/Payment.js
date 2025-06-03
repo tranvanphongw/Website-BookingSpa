@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-
 
 import styles from './Payment.module.css';
 
 const API = 'http://localhost:5000/api';
 const API_MOMO = `${API}/payment/create`;
-const API_CASH = `${API}/payment/cash`;
 
 // Hàm chuyển chuỗi chứa mã booking thành số nguyên (loại bỏ tiền tố chữ)
 function parseBookingId(str) {
@@ -25,6 +23,7 @@ function getLocalDatetimeString() {
 
 export default function Payment() {
   const location = useLocation();
+  const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const bookingIdRaw = searchParams.get('MALICH');
   const bookingId = parseBookingId(bookingIdRaw);
@@ -46,7 +45,7 @@ export default function Payment() {
   const [packageDetails, setPackageDetails] = useState([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
-  const [paymentMethod, setPaymentMethod] = useState('MoMo');
+  const [paymentMethod, setPaymentMethod] = useState('');
 
   useEffect(() => {
     if (!bookingId) {
@@ -108,14 +107,24 @@ export default function Payment() {
 
     setLoading(true);
     try {
-      const response = await axios.post(API_CASH, {
+      const paymentData = {
         MALICH: booking.MALICH,
         MAKH: loggedInCustomer.MAKH,
         SOTIEN: booking.MAGOI ? booking.GIAGOI : booking.GIATIEN,
-      });
-      setMessage({ text: response.data.message || 'Thanh toán tiền mặt thành công', type: 'success' });
+        NGAYTHANHTOAN: new Date().toISOString(),
+        HINHTHUCTHANHTOAN: 'Cash'
+      };
+
+      // Thêm thanh toán
+      await axios.post(`${API}/payment/cash`, paymentData);
+
+      setMessage({ text: 'Thanh toán thành công!', type: 'success' });
+      setTimeout(() => navigate('/booking'), 3000);
     } catch (error) {
-      setMessage({ text: 'Lỗi khi thanh toán tiền mặt', type: 'error' });
+      setMessage({ 
+        text: error.response?.data?.message || 'Lỗi khi thanh toán tiền mặt', 
+        type: 'error' 
+      });
     } finally {
       setLoading(false);
     }
@@ -192,13 +201,14 @@ export default function Payment() {
             <div className={styles.formGroup}>
               <label>Hình thức thanh toán</label>
               <select
-                className={styles.selectInput}
                 value={paymentMethod}
-                onChange={(e) => setPaymentMethod(e.target.value)}
-                disabled={loading}
+                onChange={e => setPaymentMethod(e.target.value)}
+                required
+                className={styles.selectInput}
               >
-                <option value="MoMo">Thanh toán MoMo</option>
-                <option value="Cash">Thanh toán Tiền mặt</option>
+                <option value="">-- Chọn hình thức --</option>
+                <option value="Cash">Tiền mặt</option>
+                <option value="MoMo">Ví MoMo</option>
               </select>
             </div>
             <div className={styles.formGroup}>
